@@ -6,9 +6,9 @@ while a != 0 and b != 0 :
     count = 0
 
     if a != 0 and b != 0 :
-        if a % b == 0 :         #소수 판별
+        if a % b == 0 :         #배수 판별
             print("multiple")
-        elif b % a == 0 :         #배수 판별
+        elif b % a == 0 :       #소수 판별
             print("factor")
         else :
             print("neither")
