@@ -1,0 +1,40 @@
+def solution(genres, plays):
+    answer = []
+    plays_sum_dic = {}
+    dic = {}
+    
+    for i in range(len(genres)) :
+        if genres[i] not in plays_sum_dic :
+            plays_sum_dic[genres[i]] = plays[i]
+        else :
+            plays_sum_dic[genres[i]] += plays[i]
+    
+    for i in range(len(plays)) :
+        if genres[i] not in dic.keys() :
+            dic[genres[i]] = [[plays[i], i]]
+        else :
+            dic[genres[i]].append([plays[i], i])
+    
+    
+    #장르별 플레이 횟수 내림차순 정렬
+    genre_rank = sorted(plays_sum_dic.items(), key=lambda x: -x[1])
+    
+    #장르별 랭킹으로 플레이 랭킹 확인
+    for genre in genre_rank :
+        song_rank = sorted(dic[genre[0]], key=lambda x:(-x[0],x[1]))
+        best_two = 0
+        
+        for song in song_rank :
+            answer.append(song[1])
+            best_two += 1
+            if best_two == 2 :
+                break
+    
+    return answer
+
+#가장 많이 재생된 노래를 두 개씩 모아 베스트 앨범을 출시
+#노래는 고유 번호로 구분
+#노래를 수록하는 기준
+# - 속한 노래가 많이 재생된 장르
+# - 장르 내에서 많이 재생된 노래
+# - 재생 횟수가 같은 노래 중에서는 고유 번호가 낮은 노래를 먼저 수록
