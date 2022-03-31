@@ -1,0 +1,15 @@
+def solution(clothes):
+    dic = {}
+    for item, key in clothes :
+        if key not in dic.keys():
+            dic[key] = [item]
+        else :
+            dic[key].append(item)
+    print(dic)
+
+    count = 1
+
+    for key in dic.keys() :
+        count *= len(dic[key]) + 1
+    
+    return (count-1)
