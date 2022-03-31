@@ -1,0 +1,16 @@
+def solution(phone_book):
+    dic = {}            #phone_book의 값 키 : 1
+      
+    for key in phone_book :
+        dic[key] = 1
+
+    #phone_book에 있는 전화번호 1개(num)를 한글자씩(n) 늘려가면서 숫자열생성(mk_n)
+    #숫자열(mk_n)이 dic에 등록되어있는가 확인
+    #(숫자열(mk_n)이이 본인인 경우(num)는 제외) 
+    for num in phone_book :
+        mk_n = ''
+        for n in num :
+            mk_n += n
+            if mk_n in dic and mk_n != num :
+                return False
+    return True
