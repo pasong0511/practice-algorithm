@@ -1,0 +1,12 @@
+def solution(N, stages):
+    dic = {}
+    user = len(stages)
+    
+    for i in range(1, N+1) :
+        if user != 0 :
+            fail_count = stages.count(i)
+            dic[i] = fail_count/user
+            user -= fail_count
+        else :
+            dic[i] = 0
+    return sorted(dic, key= lambda x: dic[x], reverse= True)
