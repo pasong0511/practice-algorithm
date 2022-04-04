@@ -1,0 +1,58 @@
+def solution(id_list, report, k):
+    answer = []
+    
+    id_dic = {}
+    result_dic = {}
+    
+    #id_list로 기본 키 생성 {id : []} 
+    for key in id_list :
+        id_dic[key] = []
+        result_dic[key] = 0
+    
+    #id_dic : id에 따른 {신고자 : 등록자} 생성(신고자가 다른 경우에만 등록자 개수 세기)
+    for item in report : 
+        declarer, resister = map(str, item.split())
+        
+        #{신고자 : [등록자, 등록자...]} 
+        #만약 아이템이 동일 키에 등록되어 없을때 붙여넣기
+        if resister not in id_dic[declarer] : 
+            id_dic[declarer].append(resister)
+    
+    resister_dic = {}
+    #resister_dic : {value에 등록된 등록자 키 : 개수 누적}
+    for key, value in id_dic.items() :
+        for v in value :                    #밸류가 리스트로 되어있어서 리스트 순회 필요
+            if v not in resister_dic :
+                resister_dic[v] = 1         #처음 나왔으면 등록자 = 1
+            else :
+                resister_dic[v] += 1        #키가 이미 있으면 누적 += 1
+    
+    #stop_lsit : 등록자 중에서 k번 이상 신고되어 진짜 찐으로 정지 먹는 사람
+    stop_lsit = []                          
+    for key, value in resister_dic.items() :
+        if value >= k :
+            stop_lsit.append(key)
+    
+    
+    #id_dic를 순회하면서 stop_lsit에 있는 값을 들고 있는 키에 카운트하여 result_dic에 저장   
+    for key, value in id_dic.items() :
+        for v in value :
+            if v in stop_lsit :             #stop_lsit에 있는 사람을 id_dic에서 얼마나 갖고있는가 누적
+                result_dic[key] += 1 
+                
+    for item in result_dic :
+        answer.append(result_dic[item])
+    
+    return answer
+
+
+#각 유저는 한명 유저 신고 가능
+#신고 횟수 제한 x
+#서로다른 유저는 계속 신고 가능
+#동일 유저에 대한 계속적 신고는 1회처리
+#k번 이상 신고된 유저는 게시판 정지
+
+#해당 유저를 신고한 신고자에게 메일 발송
+#정지할때 메일 발송
+
+
