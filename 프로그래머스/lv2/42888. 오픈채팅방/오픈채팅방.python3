@@ -1,0 +1,32 @@
+def solution(record):
+    answer = []
+    
+    #commend_list : [0:동작, 1:아이디, 2:닉네임] 공백으로 잘라서 리스트로 만들기
+    commend_list = []
+    for line in record :
+        commend_list.append(list(map(str, line.split())))
+    
+    #id_nickname_dic : {id : 최종닉네임}
+    #Enter or Change인 경우 {id : 닉네임} 갱신
+    id_nickname_dic = {}
+    for line in commend_list :
+        if line[0] == "Enter" or line[0] == "Change" :
+            id_nickname_dic[line[1]] = line[2] 
+    
+    for line in commend_list :
+        if line[0] == "Enter" :
+            answer.append(f'{id_nickname_dic[line[1]]}님이 들어왔습니다.')
+        if line[0] == "Leave" :
+            answer.append(f'{id_nickname_dic[line[1]]}님이 나갔습니다.')
+    
+    
+    return answer
+
+#닉네임 변경 방법
+#1. 채팅방 나가기
+#2. 채팅방에서 닉네임 변경
+
+#닉네임 변경 시 기존에 채팅방에 있던 메시지의 닉네임도 다 바뀜
+
+#채팅방에 들어오고 나가거나, 닉네임을 변경한 기록이 담긴 문자열 리스트 record
+#모든 기록이 처리된 후 최종적으로 방을 개설한 사람이 보게 되는 메시지를 리턴
