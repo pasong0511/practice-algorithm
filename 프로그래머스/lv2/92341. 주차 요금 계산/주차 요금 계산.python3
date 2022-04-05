@@ -1,0 +1,64 @@
+import math
+
+def time_to_minute(time):
+    [hour, minute] = time.split(':')
+    return int(hour)*60 + int(minute)
+
+def different(item):
+    if len(item) == 0:
+        return 0
+    output_time = time_to_minute(item.pop())
+    input_time = time_to_minute(item.pop())
+
+    return output_time - input_time
+#[180, 5000, 10, 600]
+#0기본시간, 1기본요금, 2단위 시간, 3단위 요금
+def pay_to_calcular(fees, accumulate_time) :
+    basic_time = accumulate_time - fees[0]      #누적 시간 - [0]기본시간
+    pay_sum = 0
+    if basic_time >= 0 :
+        pay_sum = fees[1] + math.ceil(basic_time / fees[2]) * fees[3]
+    else :
+        pay_sum = fees[1]
+    return pay_sum
+
+def solution(fees, records):
+    answer = []
+    
+    #car_dic 딕셔너리 => {차량번호 : [입출차시간], [입출차시간], [입출차시간] ...}
+    car_dic = {}
+    for record in records :
+        [time, num, history] = record.split()
+        if history == "IN" :                    #IN인 경우
+            if num not in car_dic.keys() :      #키없으면 키 생성
+                car_dic[num] = [time]           #압차시간 딕셔너리 저장
+            else :
+                car_dic[num].append(time)       #IN인 경우 & 키가 기존에 있는 경우
+        else :                                  #OUT인 경우 
+            car_dic[num].append(time)           #출차 시간은 당연히 키가 있어서 생성필요 x
+            
+    
+    #차량 번호 키에 저장된 밸류값인 시간을 두개씩 뽑아서 돈 계산
+    for key, item in car_dic.items() :
+        if len(item) % 2 != 0 :
+            car_dic[key].append("23:59")
+    
+    for key, item in car_dic.items() :
+        time_sum = 0
+        while item:
+            time_sum += different(item)
+        car_dic[key] = time_sum
+    
+    pay_dic = {}
+    for key, value in car_dic.items() :
+        print(key, value)
+        pay_dic[key] = pay_to_calcular(fees, value)
+    
+    sort_dic = sorted(pay_dic.items())
+    for value in sort_dic : 
+        answer.append(value[1])
+    return answer
+
+#누적 주차 시간이 기본 시간 이하이면 기본 요금 청구
+#누적 주차 시간이 기본 시간을 초과하면 기본 요금에 더해서 초과한 시간에 대해서 단위 시간마다 요금 청구
+#초과한 시간이 단위 시간으로 나누어 덜어지지 않으면 올림
