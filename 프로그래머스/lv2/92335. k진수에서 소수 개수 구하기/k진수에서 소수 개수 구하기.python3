@@ -1,0 +1,76 @@
+import re
+
+def isPrime(n) :
+    if n <= 1:
+        return False
+    for i in range(2, int(n**(1/2)+1)):
+        if n % i == 0:
+            return False
+    return True
+
+def convert_n_number(n, k) :
+    rev_base = ''
+    while n > 0 :
+        n, mod = divmod(n, k)
+        rev_base += str(mod)
+    return rev_base[::-1]
+
+def solution(n, k) :
+    count = 0
+    
+    #1. n -> k진수로 변환
+    bin_num = convert_n_number(n, k)
+    
+    #2. 소수후보자 찾기 위해 k진수를 0으로 나누면 패턴에 맞음
+    cut_num_list = list(bin_num.split("0"))
+    
+    #3. 소수 판별 && 개수 카운트
+    for cut_num in cut_num_list :
+        if cut_num not in ['', '1'] and isPrime(int(cut_num)) is True :
+            count += 1
+    return count
+    
+# def solution(n, k):
+#     answer = -1
+    
+#     #1. n -> k진수로 변환
+#     bin_num = convert_n_number(n, k)
+#     print(bin_num)
+#     count = 0  
+    
+#     #2. 변환한 수 패턴에 맞게 분리
+#     patterns = ['0([1-9]*)0', '([1-9]*)0', '0([1-9]*)', '^([1-9]*)$']
+#     for pattern in patterns :
+#         regex = re.compile(pattern)
+#         prime_find_list = regex.findall(bin_num)
+#         #print(prime_find)
+        
+#         #3. 소수인지 판별
+#         if len(prime_find_list) != 0 :           #빈 공백리스트가 아닌 경우
+#             print(prime_find_list)
+#             for p in prime_find_list :           #패턴에서 찾아낸 숫자 리스트가 소수인지 판별
+#                 if p != '' :                #숫자 리스트의 한 원소씩 찾아서 소수인지 판별
+#                     if ((int(p) != 0) and (int(p) != 1)) and isPrime(int(p)) is True :
+#                         count += 1
+#                         print(p)
+#     print("카운트", count)
+#     #4. 개수 카운트
+#     return answer
+
+#양의 정수 n -> k진수로 변환
+#안에 조건에 맞는 소수 찾기
+#0P0 (양쪽에 0)
+#P0 (오른쪽에 0)
+#0P (왼쪽에 0)
+#P (아무것도 X)
+
+#437674 -> 3진수 '211'0'2'01010'11'
+#10진법으로 봤을때 소수여야함 
+#211 (P0)
+#2 (0P0)
+#11 (0P)
+
+#1. n -> k진수로 변환
+#2. 변환한 수 패턴에 맞게 분리
+#3. 소수인지 판별
+#4. 개수 카운트
