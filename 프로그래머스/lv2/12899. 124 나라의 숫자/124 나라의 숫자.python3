@@ -1,0 +1,11 @@
+def solution(n):
+    answer = ''
+    n_list = ['1', '2', '4']
+    
+    while n > 0 :
+        n = n - 1
+        answer = n_list[n%3] + answer
+        n //= 3    
+    return answer
+
+#1. n을 3으로 나눠줌 몫 => 앞자리, 나머지 => 뒷자리 나머지가 0인 경우 4가 된다.
