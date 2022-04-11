@@ -1,0 +1,25 @@
+def solution(people, limit):
+    answer = 0
+    count = 0
+    #people[제일 무거운 사람, 두번째 무거운 사람, ...... ,가벼운 사람]
+    people.sort(reverse=True)
+    start = 0                   
+    end = len(people) - 1
+    
+    while start < end :
+        #스타트 포인트가 가리키는 사람, 엔드 포인트가 가리키는 사람의 몸무게 합이 리미트를 넘지 않으면
+        #보트 태우기
+        if (people[start] + people[end]) <= limit :
+            count += 1
+            start += 1
+            end -= 1
+        #현재 포인터로는 무게가 넘어서 못태우므로, 무거운 사람을 조금 더 가벼운 사람으로 교체
+        else :
+            start += 1
+        answer = (len(people) - (count*2)) + count  #둘이 못타서 개인이 탄 사람 + 2씩 탄 사람
+    return answer
+
+#그리디 문제
+#내림 차순 정렬 후에
+#몸무게 리미트 이내에서
+#가장 적은 사람과 가장 무거운 사람 같이 태우기
