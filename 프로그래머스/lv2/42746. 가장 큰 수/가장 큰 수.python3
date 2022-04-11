@@ -1,0 +1,9 @@
+def solution(numbers):
+    answer = ''
+    
+    num_list = list(map(str, numbers))
+    
+    #문자열 길이를 3배로 늘린 후에 비교
+    num_list.sort(key = lambda x:x*3, reverse=True)
+    answer = "".join(num_list)
+    return str(int(answer))
