@@ -1,0 +1,21 @@
+def solution(word):
+    dic = ['A', 'E', 'I', 'O', 'U']
+    dic_list = {}
+    count = 0
+    for i in dic :
+        count += 1
+        dic_list[i] = count
+        for j in dic : 
+            count += 1
+            dic_list[i+j] = count
+            for k in dic :
+                count += 1
+                dic_list[i+j+k] = count
+                for l in dic : 
+                    count += 1
+                    dic_list[i+j+k+l] = count
+                    for m in dic : 
+                        count += 1
+                        dic_list[i+j+k+l+m] = count
+                        
+    return dic_list[word]
