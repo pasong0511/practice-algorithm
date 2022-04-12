@@ -1,0 +1,48 @@
+def solution(cacheSize, all_cities):
+    runtime = 0
+    cities = []
+    cache = []
+        
+    for city in all_cities :
+        cities.append(city.lower())
+    
+    #캐시사이즈가 0인 경우 모두 캐시 미스
+    if cacheSize == 0 :
+        return len(cities) * 5
+    
+    #도시 이름 하나씩 탐색
+    for city in cities :
+        #도시 하나가 캐시에 존재하지 않으면 캐시에 추가
+        if city not in cache :
+            #캐시에 자리가 남으면 그냥 넣기 +5
+            if len(cache) < cacheSize :
+                cache.append(city)
+                runtime += 5
+            #캐시가 차있으면 맨앞(제일 오래된애) 빼고 넣기 +5
+            elif 0 < len(cache) and len(cache) == cacheSize :
+                cache.pop(0)
+                cache.append(city)
+                runtime += 5
+        #도시 하나가 캐시에 존재한다면 캐시에 추가할 필요 없음 실행시간 +1
+        else :
+            cache.pop(cache.index(city))
+            cache.append(city)
+            runtime += 1
+    return runtime
+
+
+
+#지도에서 도시이름 검색
+#해당 도시 관련된 맛집 게시물들 DB에서 읽어옴
+
+#DB 캐시 크기를 적용할 때 캐시 크기에 따른 실행시간 측정
+
+#캐시 교체 알고리즘은 가장 오랫동안 참조되지 않은 페이지를 교체
+#캐시 히트 실행시간 1
+#캐시 미스 실행시간 5
+
+#캐시 사이즈만한 캐시를 만든다고 한다.
+#도시이름이 캐시에 없으면 실행시간 + 5 -> 캐시에 넣어준다.
+#캐시에 넣어줄 때 캐시가 꽉 차 있다면 len(cach) < cacheSize
+#캐시 맨 앞에 있는걸 빼주고 넣어준다.
+#도시이름이 캐시에 있으면 실행시간 + 1 -> 캐시에 있으므로 캐시에 넣어주지 않아도 된다
