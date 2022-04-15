@@ -1,0 +1,58 @@
+def solution(files):
+    import re
+
+    file_list = []
+    for i in range(len(files)):
+        number = re.findall('\d+', files[i])[0]
+        head = files[i][:files[i].index(number)].upper()
+        file_list.append([files[i], head, int(number), i])
+
+    file_list = sorted(file_list, key=lambda x: (x[1], x[2], x[3]))
+    # print(file_list)
+
+    answer = []
+    for file in file_list:
+        answer.append(file[0])
+    return answer
+
+# import re
+
+# def solution(files):
+#     dic = {}
+#     regex_list = ["^[(a-zA-z .\-)]*", "^[a-zA-Z .\-]*([\d]*)"]
+#     new_files = []
+    
+#     for i in range(len(files)) :
+#         new_files.append(files[i].replace(" ", ""))        #공백제거
+#         filter_data = []
+#         for idx in range(len(regex_list)) :
+#             regex = re.compile(regex_list[idx])
+#             data = regex.findall(new_files[i])
+#             if idx == 0 :
+#                 filter_data.append([data[0].lower()])
+#                 continue
+#             if idx == 1 : 
+#                 filter_data.append([int(data[0])])
+#                 continue
+#         dic[i] = filter_data
+#     print("정렬전 : ", dic)
+    
+#     #x[0]은 키 x[1]은 밸류 리스트 x[1][0]은 밸류 리스트의 0번째 인덱스 : HEAD, x[1][1]은 밸류 리스트의 1번째 인덱스 : NUMBER
+#     sort_dic = sorted(dic.items(), key=lambda x: (x[1][1], x[1][0], x[0]))
+#     sort_dic = sorted(dic.items(), key=lambda x: (x[1][0], x[1][1], x[0]))
+#     print("정렬후 : ",sort_dic)
+
+    
+#     answer = []
+#     for sort in sort_dic :
+#         answer.append(files[sort[0]])
+#     print(answer)
+#     return answer
+
+# #숫자가 포함된 문자열을 숫자순서대로 정렬해라
+# #3등분으로 나눔
+# #HEAD : 숫자전까지
+# #NUMBER : 숫자
+# #TAIL : 숫자이후
+
+# #HEAD가 같은 경우 NUMBER 정렬
