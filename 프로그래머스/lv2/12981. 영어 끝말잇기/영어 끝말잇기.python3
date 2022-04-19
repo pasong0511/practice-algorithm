@@ -1,19 +1,13 @@
 def solution(n, words):
     answer = []
     dic = {}
-    cycle = 1
     count = 0
     front = ""
     
     for i in range(len(words)) : 
-        #n사람이 반복하면서 사이클 증가
-        if count == n : 
-            cycle += 1
-            count = 0
-            
         #처음은 그냥 말해도 된다
         if front == "" :
-            dic[words[i]] = [(i%n)+1, cycle]
+            dic[words[i]] = [(i%n)+1, (i//n)+1]
             front = words[i]
             count += 1
             continue
@@ -24,18 +18,17 @@ def solution(n, words):
             front = words[i]                        #프론트 갱신(다음 단어를 위함)
             #중복 없는 단어라면 반복
             if words[i] not in dic :                #딕셔너리에 중복된 값 안들어가게함
-                dic[words[i]] = [(i%n)+1, cycle]    #키=단어 : 값=(참여자번호), 사이클
+                dic[words[i]] = [(i%n)+1, (i//n)+1]    #키=단어 : 값=(참여자번호), 사이클
             #중복단어 만나면 종료
             else :
                 answer.append((i%n)+1)
-                answer.append(cycle)
+                answer.append((i//n)+1)
                 return answer
         #앞단어 꼬리[-1] && 뒷단어 머리[0]가 틀린 경우 반환
         else :
             answer.append((i%n)+1)
-            answer.append(cycle)
+            answer.append((i//n)+1)
             return answer
-        count += 1
     
     return [0, 0]
         
