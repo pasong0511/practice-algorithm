@@ -1,0 +1,49 @@
+def solution(n, words):
+    answer = []
+    dic = {}
+    cycle = 1
+    count = 0
+    front = ""
+    
+    for i in range(len(words)) : 
+        #n사람이 반복하면서 사이클 증가
+        if count == n : 
+            cycle += 1
+            count = 0
+            
+        #처음은 그냥 말해도 된다
+        if front == "" :
+            dic[words[i]] = [(i%n)+1, cycle]
+            front = words[i]
+            count += 1
+            continue
+        
+        #두번째부터는 앞단어 꼬리[-1] && 뒷단어 머리[0] 체크
+        str_word = words[i]
+        if front[-1] == str_word[0] :
+            front = words[i]                        #프론트 갱신(다음 단어를 위함)
+            #중복 없는 단어라면 반복
+            if words[i] not in dic :                #딕셔너리에 중복된 값 안들어가게함
+                dic[words[i]] = [(i%n)+1, cycle]    #키=단어 : 값=(참여자번호), 사이클
+            #중복단어 만나면 종료
+            else :
+                answer.append((i%n)+1)
+                answer.append(cycle)
+                return answer
+        #앞단어 꼬리[-1] && 뒷단어 머리[0]가 틀린 경우 반환
+        else :
+            answer.append((i%n)+1)
+            answer.append(cycle)
+            return answer
+        count += 1
+    
+    return [0, 0]
+        
+            
+#1번부터 번호 순서대로 한사람씩 단어
+#마지막 사람 말하면 다시 처음부터
+#앞사람이 말한 단어로 시작
+#중복단어 x
+#한글자 x
+
+#가장 먼저 탈락하는 사람구하고, 몇번째에 탈락하는지 구하기
