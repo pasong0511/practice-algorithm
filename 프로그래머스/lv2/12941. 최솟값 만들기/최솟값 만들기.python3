@@ -1,0 +1,14 @@
+def solution(A,B):
+    A.sort()
+    B.sort(reverse=True)
+    sum = 0
+    
+    while A :
+        sum += A.pop(0) * B.pop(0)
+        
+    return sum
+
+#길이가 같은 배열 A, B
+#한개의 숫자를 뽑아 두 수를 곱함
+#배열의 길이만큼 반복하면서 곱한 값은 누적
+#누적되는 값이 최소가 되도록 만드는 것이 목표
