@@ -1,34 +1,28 @@
 def solution(skill, skill_trees):
-    answer = -1
     count = 0
     dic = {}
     
+    #스킬 종류와 유지해야하는 순서의 인덱스를 딕셔너리로 저장
+    #{키=스킬종류 : 밸류=순서번호}
     for i in range(len(skill)) :
         dic[skill[i]] = i
     
-    #print(dic)
-    
     for skill_tree in skill_trees :
-        check = [False] * len(skill)
-        flag = True
-        #print(skill_tree)
+        check = [False] * len(skill)        #딕셔너리의 키 값으로 스킬트리 순서 유지 확인용
+        flag = True                         #플래그 값을 계속 True로 유지해야 올바른 스킬 트리 유지
         
         #스킬 한개씩 쪼개서 비교
         for s in skill_tree :
             #트리에 스킬셋 관련된 스킬이 포함되어 있는 경우
             if s in skill :
-                check[dic[s]] = True
+                check[dic[s]] = True        #스킬이 확인되면 check에 해당 순서에 맞게 true로 바꿔줌
                 
-                #dic[s]인덱스 앞까지 모두 True로 변환되어 있었어야함
+                #check가 0부터 dic[s]인덱스 앞까지 모두 True로 변환되어 있었어야함(그래야 올바른 스킬테크)
                 for i in range(dic[s]) :
                     if check[i] == False :
-                        #print("스킬트리 꼬였음")
                         flag = False
-                        #print(flag)
                         break
-                    #print(flag)
         if flag == True :
             count += 1
-        #print("--------------------------")
             
     return count
