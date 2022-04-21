@@ -20,29 +20,27 @@ def solution(dirs):
     return len(visit)
 
 # def solution(dirs):
-#     answer = 0
 #     n = 11
 #     map_data = [[0] * n for _ in range(n)]
-#     start_x = (n // 2)
-#     start_y = (n // 2)
+#     start_x = 5
+#     start_y = 5
 #     next_x = start_x
 #     next_y = start_y
     
-#     count = 0
-#     stack = []
+#     visit = set()
     
 #     for d in dirs :
 #         #4방향 이동
 #         if d == 'U' :
 #             next_x = start_x - 1
 
-#         if d == "D" :
+#         elif d == "D" :
 #             next_x = start_x + 1
 
-#         if d == "R" :
+#         elif d == "R" :
 #             next_y = start_y + 1
 
-#         if d == "L" :
+#         elif d == "L" :
 #             next_y = start_y - 1
         
 #         #좌표에서 벗어나면 그 자리에 있음
@@ -53,16 +51,24 @@ def solution(dirs):
 #             next_y = 0
         
 #         if n <= next_x :         #x가 n보다 크면 x = n-1
-#             next_x = n-1
+#             next_x = n
         
 #         if n <= next_y :         #y가 n보다 크면 y = n-1
-#             next_y = n-1
+#             next_y = n
         
-#         if [[start_x, start_y], [next_x, next_y]] not in stack :
-#             if [[next_x, next_y], [start_x, start_y]] not in stack :
-#                 if [start_x, start_y] != [next_x, next_y] :
-#                     stack.append([[start_x, start_y], [next_x, next_y]])
+#         if start_x == next_x and start_y == next_y:
+#             continue
+        
+        
+#         visit.add(((start_x, start_y), (next_x, next_y)))
+        
+#         # if [[start_x, start_y], [next_x, next_y]] not in visit :
+#         #     if [[next_x, next_y], [start_x, start_y]] not in visit :
+#         #         if [start_x, start_y] != [next_x, next_y] :
+#         #             visit.append([[start_x, start_y], [next_x, next_y]])
 #         #next가 다음의 start가 된다
 #         start_x = next_x
-#         start_y = next_y         
-#     return (len(stack))
+#         start_y = next_y
+        
+#     print(visit)
+#     return len(visit)
