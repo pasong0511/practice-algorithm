@@ -1,0 +1,39 @@
+from itertools import combinations
+from collections import Counter
+
+def solution(orders, course):
+    answer = []
+    
+    #코스 [2, 3, 4]
+    for c in course :
+        temp = []
+        #주문 ["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"]
+        #코스 개수에 따른 조합 가능성 모두 생성
+        for order in orders :
+            print(order)
+            combi = combinations(sorted(order), c)
+            temp += combi
+        
+        #공통된 조합 개수 세어서 딕셔너리 형태로 반환
+        order_dic = Counter(temp)
+        print(order_dic)
+        
+        if order_dic :
+            #조합의 개수 중 최대 빈도수 찾기
+            max_count = max(list(order_dic.values()))
+            
+            #2개 이상 주문해야하기때문에 2보다 큰 경우
+            if max_count >= 2:
+                for key, valus in order_dic.items() :
+                    #최대값을 갖고 있는 조합을 답으로 만들기 
+                    if order_dic[key] == max_count :
+                        answer.append("".join(key))
+    return sorted(answer)
+
+
+#가장 많이 주문한 단품 매뉴들을 코스로 구성
+#코스 요리는 최소 2가지 이상의 단품 메뉴로 구성
+#최소 2명 이상의 손님으로부터 주문된 단품 메뉴 조합만 후보
+
+#메뉴 : 주문한 사람으로 딕셔너리 생성
+#
