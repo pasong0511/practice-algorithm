@@ -1,0 +1,77 @@
+def solution(n, k, cmd):
+    cur = k
+    table = { i : [i-1, i+1] for i in range(n) }
+    answer = ["O"] * n
+    remove_stack = []
+    
+    #맨 앞 노드, 맨 뒤노드 설정
+    table[0] = [None, 1]            #맨 위에 칸(더 앞은 없고 바로 뒤는 1)
+    table[n-1] = [n-2, None]        #맨 마지막 칸(더 뒤는 없고 바로 앞은 n-2)
+    
+    for c in cmd :
+        #제거
+        if c == "C" :
+            answer[cur] = "X"       #삭제된 인덱스에 X표시
+            prev, next = table[cur]
+            remove_stack.append([prev, cur, next])
+            
+            #뒤가 없는 맨 마지막 노드
+            if next == None :
+                cur = table[cur][0]         #커서 변경
+            #뒤가 있는 노드
+            else :
+                cur = table[cur][1]         #커서 변경
+            
+            #이전 노드가 없는 경우
+            if prev == None :
+                table[next][0] = None       #앞에서 두번째에 있던 노드가 이제 처음 노드가 된다
+            elif next == None :
+                table[prev][1] = None       #뒤에서 두번째 있던 노드가 이제 마지막 노드가 된다
+                
+            #제거된게 중간 노드이기 때문에 제거된거 앞 뒤로 연결시켜줘야함
+            else :
+                table[prev][1] = next   #앞에가 next(1) 뒤에거 prev 연결 - 값은 현재 cur의 next에 들어있음
+                table[next][0] = prev   #뒤에거 prev(0) 앞에거 next 연결 - 값은 현재 cur의 prev에 들어있음
+        #복구
+        elif c == "Z" :
+            prev, now, next = remove_stack.pop()
+            answer[now] = "O"
+        
+            #이전이 없는 맨 앞이 복구
+            if prev == None :
+                table[next][0] = now        #맨앞에 노드를 다시 연결
+            #다음이 없는 맨 뒤 복구
+            elif next == None :               #마지막에 있던 노드 다시 연결
+                table[prev][1] = now
+            #중간이 복구
+            else :
+                table[next][0] = now
+                table[prev][1] = now
+
+        else :
+            c1, c2 = c.split(" ")
+            c2 = int(c2)
+            #다운인 경우 뒤로 가자
+            if c1 == "D" :
+                #커서가 앞으로 이동해야함
+                for _ in range(c2) :
+                    cur = table[cur][1]
+            
+            #업인 경우 앞으로 가자
+            else :
+                for _ in range(c2) :
+                    cur = table[cur][0]
+                    
+    return ("".join(answer))
+
+#파랑으로 칠해진 칸이 현재 선택된 행
+#한번에 한 행만 선택
+
+#U X : 현재 선택된 행에서 x칸위에 있는 행
+#D X : 현재 선택된 행에서 X칸알래 있는 행
+#C : 현재 선택된 행 삭제, 바로 아래 행 선택(맨 마지막인 경우 바로 윗행 선택)
+#Z : 가장 최근에 삭제한 복구(현재 선택된 행은 바뀌지 않음)
+#삭제되지 않은 행은 O, 삭제된 행은 X
+
+#n : 표의 행
+#k : 처음 선택된 행
