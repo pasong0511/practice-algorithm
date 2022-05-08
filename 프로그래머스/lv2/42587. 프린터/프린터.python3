@@ -1,0 +1,20 @@
+from collections import deque
+
+def solution(priorities, location):
+    answer = []
+    q = deque()
+    for i in range(len(priorities)):
+        q.append([priorities[i], i])        #튜플형태로 저장
+    max_num, max_i = max(q)
+    while q :
+        com_num, com_i = q.popleft()
+        if com_num < max_num :
+            q.append([com_num, com_i])
+        else :
+            answer.append([com_num, com_i])
+            if  len(q) > 0 : 
+                max_num, max_i = max(q)
+    print(answer)
+    for i in range(len(answer)):
+        if answer[i][1] == location:
+            return i + 1
