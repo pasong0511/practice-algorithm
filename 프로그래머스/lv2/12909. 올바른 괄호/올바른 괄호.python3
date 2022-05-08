@@ -1,0 +1,14 @@
+def solution(s):
+    stack = []
+    
+    for i in range(len(s)) : 
+        if s[i] == "(":         #(만나는 경우 무조건 스택에 추가
+            stack.append("(")
+        else :
+            if len(stack) > 0 : #0보다 큰 경우에 )만났을때 스택 pop
+                stack.pop()
+            else :              #스택이 비어 있을때 )요청
+                return False
+    if len(stack) > 0 :         #스택에 (가 남은 경우 False
+        return False
+    return True
