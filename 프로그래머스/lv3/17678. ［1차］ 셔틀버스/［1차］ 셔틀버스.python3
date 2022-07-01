@@ -1,0 +1,56 @@
+def transe_minutes(time) :
+    t = int(time[0:2]) * 60
+    m = int(time[3:5])
+    return t + m
+
+def solution(n, t, m, timetable):
+    answer = 0
+    stande_list = []
+    bus_arrive_time = []
+    
+    #1. 크루 자리에 서 있는 시간 분으로 변경
+    for time in timetable :
+        stande_list.append(transe_minutes(time))
+    stande_list.sort()                 #오름 차순 정렬
+    
+    #2. 9시부터 배차간격 t 만큼 저장
+    start_bus = 9 * 60
+    for i in range(n) :
+        if i < 1 :
+            bus_arrive_time.append(start_bus)
+            continue
+        start_bus += t
+        bus_arrive_time.append(start_bus)
+    
+    #3. 버스 도착 시간에 크루 인덱스 확인해서 태워 보냄
+    # - 태워서 보낸 크루 개수가 m보다 작아야함
+    # - 크루가 남아있어야함
+    # - 버스 시간보다 크루가 도착한 시간이 같거나 적어야 한다
+    # - 버스에 자리가 남으면 그냥 태워보낸다?
+    # - 버스에 빈 자리가 없으면 마지막 크루보다 1분 적어야 한다.
+    i = 0
+    for tm in bus_arrive_time :
+        count = 0
+        while count < m and i < len(stande_list) and stande_list[i] <= tm :
+            count += 1
+            i += 1
+        
+        #버스에 자리가 있는 경우 해당 시간
+        if count < m :
+            answer = tm
+        #버스에 자리가 없는 경우 마지막 크루보다 1분 빨리와야 함
+        else :
+            answer = stande_list[i - 1] - 1
+    
+    return str(answer//60).zfill(2) + ":" + str(answer%60).zfill(2)
+    
+
+#셔틀은 9:00분 부터 
+#총 n회 
+#t분 간격으로 역에 도착
+#하나의 셔틀에는 최대 m명의 승객 탑승 가능
+
+#도착 시간 중에서 제일 늦은 시각을 구해라
+
+
+
