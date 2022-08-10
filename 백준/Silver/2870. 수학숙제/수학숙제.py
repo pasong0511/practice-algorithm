@@ -1,18 +1,24 @@
-import re
-
 n = int(input())
-num_list = []
-transed_list = []
-
-for test_case in range(n) : 
-    input_string = input()
-    regex = re.compile("([0-9]+)")      #숫자 추출
-    transed_list = regex.findall(input_string)      #추출한 숫자 리스트로 반환
-    transed_list = list(map(int, transed_list))     #정렬, 0제거 위해서 int 형변환
+numList = []
+for i in range(n) :
+    word = input()
     
-    num_list += transed_list            #정규식으로 숫자 추출 한거 list에 추가
+    answer = ''
 
-num_list.sort()                         #오름차순정렬(비 내림차순정렬)
-
-for num in num_list :                   #출력
+    #라인 한줄 탐색하기
+    for w in word :
+        #숫자가 나오는 경우 stack에 넣기
+        if w.isdigit() is True :
+            answer += w
+        #숫자가 아닌 경우 기존에 만들어진 문자들 저장, 이후 초기화
+        else :
+            if answer != '' :
+                numList.append(int(answer))
+            answer = ''
+    #마지막 끝에 있는 경우도 체크
+    if answer != '' :
+        numList.append(int(answer))
+    
+numList.sort()
+for num in numList :
     print(num)
