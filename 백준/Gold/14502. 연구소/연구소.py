@@ -48,7 +48,9 @@ def BFS() :
     count = 0
     #안정역역 찾기(0) 찾기
     for i in range(n) :
-        count += copyBoard[i].count(0)
+            for j in range(m) :
+                if copyBoard[i][j] == 0 :
+                    count += 1
     preCount = max(count, preCount)
 
 
