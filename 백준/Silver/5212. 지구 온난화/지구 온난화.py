@@ -16,12 +16,11 @@ newBoard = copy.deepcopy(board)     #새롭게 바다 채워넣을 보드 생성
 
 def checkPos(nowX, nowY) :
     closeCount = 0
-    #print("현재좌표", nowX, nowY)
+
     for d in range(4) : 
         nextX = nowX + dx[d]
         nextY = nowY + dy[d]
 
-        #print("4방향", nextX, nextY)
         #왼쪽-1, 위-1 벽인 경우에는 카운트만 증가
         #오른m, 아래 n 벽인 경우에는 카운트만 증가 
         if nextX < 0 or nextY < 0 or n <= nextX or m <= nextY :  
@@ -31,7 +30,6 @@ def checkPos(nowX, nowY) :
         if board[nextX][nextY] == "." :
             closeCount += 1
 
-    #print("인접한 바다 카운트", closeCount)
     #인접카운트가 3개 이상인 경우 now 좌표에 있는 값을 바다(.)로 변경해주기
     if 3 <= closeCount <= 4 :
         newBoard[nowX][nowY] = "."
@@ -52,14 +50,14 @@ maxCol = -1
 for rowIdx, rowValue in enumerate(newBoard) :
     for colIdx in range(len(rowValue)) :
         if newBoard[rowIdx][colIdx] == 'X' :
-            #print(newBoard[rowIdx][colIdx], rowIdx, colIdx)
+
             minRow = min(minRow, rowIdx)
             maxRow = max(maxRow, rowIdx)
 
             minCol = min(minCol, colIdx)
             maxCol = max(maxCol, colIdx)
 
-#print(minRow, maxRow, minCol, maxCol)
+#4. 좌표에 맞게 50년뒤 섬 지도 잘라주기
 for i in range(minRow, maxRow + 1) :
     for j in range(minCol, maxCol + 1) :
         print(newBoard[i][j], end="")
