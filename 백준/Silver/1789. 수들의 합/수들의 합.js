@@ -6,13 +6,9 @@ let s = Number(input[0]);
 let sum = 0;
 let count = 0;
 
-while (true) {
-    if (s < sum) {
-        break;
-    } else {
-        count += 1;
-        sum += count;
-    }
+while (sum <= s) {
+    count += 1;
+    sum += count;
 }
 
 console.log(count - 1);
